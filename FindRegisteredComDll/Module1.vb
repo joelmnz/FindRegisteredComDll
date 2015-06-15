@@ -42,14 +42,11 @@ Module Module1
         Console.Write("Press Enter to exit")
         Console.ReadLine()
 
-        'Environment.Is64BitOperatingSystem
-
     End Sub
 
     Private Sub OpenResultFolder(resultValue As String)
 
         Try
-            'System.Diagnostics.Process.Start("explorer", IO.Path.GetDirectoryName(resultValue))
             System.Diagnostics.Process.Start("explorer", "/select," & resultValue)
         Catch ex As Exception
             Console.WriteLine("Error opening folder:")
@@ -60,7 +57,6 @@ Module Module1
 
     Private Function FindKeys(search As String, returnFirst As Boolean) As List(Of String)
 
-        'Console.WriteLine(Microsoft.Win32.Registry.ClassesRoot.Name)
         Dim lsResults As New List(Of String)
 
         Dim lPath As String = "SOFTWARE\Classes"
@@ -80,23 +76,19 @@ Module Module1
                     Continue For 'doesn't exist?
                 End If
 
-
                 Dim szInProcDefaultValue As String = CStr(lSearchSubKey.GetValue(String.Empty, String.Empty))
                 If String.IsNullOrEmpty(szInProcDefaultValue) Then Continue For
 
                 'does it have our dll name?
                 If LCase(szInProcDefaultValue).Contains(LCase(search)) Then
                     'match...
-                    'lsResults.Add(szInProcDefaultValue & vbCrLf & " (CLSID = " & szCLSID & ")")
-
+                    
                     If Not lsResults.Contains(szInProcDefaultValue) Then
                         lsResults.Add(szInProcDefaultValue)
                     End If
 
                     If returnFirst Then Exit For
                 End If
-
-                'lSearchSubKey.Close()
 
             End Using
         Next
